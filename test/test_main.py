@@ -3,8 +3,6 @@ import subprocess
 import io
 import os
 
-import pytest
-
 from src.main import optimize_for_seo
 
 
