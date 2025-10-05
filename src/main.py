@@ -1,5 +1,6 @@
 import subprocess
 import argparse
+import sys
 
 def optimize_for_seo(input_file, output_file):
     with open(input_file, 'r', encoding='utf-8') as f:
@@ -25,8 +26,19 @@ def optimize_for_seo(input_file, output_file):
     
     print(f"SEO-optimized draft saved to {output_file}")
 
+def get_version():
+    try:
+        if getattr(sys, 'frozen', False):
+            return dict(x.split('=') for x in sys._MEIPASS.split(',')).get('VERSION', 'unknown')
+        else:
+            return 'development'
+    except:
+        return 'unknown'
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="SEO-optimize a blog draft using Ollama")
+    parser.add_argument('-v', '--version', action='version',
+                        version=f'%(prog)s {get_version()}')
     parser.add_argument('input', help="Path to draft file")
     parser.add_argument('output', help="Path to save optimized draft")
     args = parser.parse_args()
